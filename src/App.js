@@ -15,6 +15,7 @@ import LogIn from './pages/LogIn';
 import Dashboard from "./pages/Dashboard";
 import ProductList from "./pages/ProductList";
 import Product from "./pages/Product";
+import AddProduct from "./pages/AddProduct";
 
 const persistConfig = {
     key: 'root',
@@ -34,10 +35,9 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/Login" element={<LogIn />} />
-                    <Route path="/Products" element={<ProductList />}>
-                        
-                    </Route>
+                    <Route path="/Products" element={<ProductList />}></Route>
                     <Route path="/Products/:ProductId" element={<Product />} />
+                    <Route path="/Products/add" element={<AddProduct />} />
                 </Routes>
             </PersistGate>
         </Provider>

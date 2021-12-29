@@ -1,6 +1,4 @@
 import React from 'react';
-// import { Image } from '@material-ui/icons';
-import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,7 +15,7 @@ import Button from '@material-ui/core/Button';
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { updateProductDetail } from '../reducers/cartReducer';
+import { addOneProduct } from '../reducers/cartReducer';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -61,25 +59,30 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Product() {
-    const { state } = useLocation();
-    const { id } = state;
+export default function AddProduct() {
     const classes = useStyles();
     const dispatch = useDispatch();
-    // const [product, setProduct] = React.useState([]);
 
-    const product = useSelector((store) => store.cartReducer.products.filter(word => word._id === id));
     const categories = useSelector((store) => store.cartReducer.categories);
 
-    const [values, setValues] = React.useState(product[0]);
+    const [values, setValues] = React.useState({
+        name:"",
+        price:'',
+        description:'',
+        slug:'',
+        thumbnail:'',
+        type_id: 0,
+        images: []
+    });
 
     const handleChange = (prop) => (event) => {
         prop === 'price' ? setValues({ ...values, [prop]: Number(event.target.value) }) : setValues({ ...values, [prop]: event.target.value })
+        console.log(values)
     };
-
     const update = () => {
-        dispatch(updateProductDetail({values}));
-        // console.log(values)
+        dispatch(addOneProduct({values}));
+        // updateProduct(values)
+        
     };
 
     return (
@@ -101,7 +104,6 @@ export default function Product() {
                                         id="thumbnail"
                                         name="thumbnail"
                                         defaultValue={values.thumbnail}
-                                        
                                         required
                                         className={classes.input}
                                         onChange={handleChange('thumbnail')}

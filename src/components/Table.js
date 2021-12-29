@@ -12,8 +12,9 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Button from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
+import { useSelector, useDispatch } from "react-redux";
+import { deleteOneProduct } from '../reducers/cartReducer';
 
 const columns = [
     { id: 'name', label: 'Name', minWidth: 170 },
@@ -45,13 +46,13 @@ const useStyles = makeStyles({
         width: '100%',
     },
     container: {
-        maxHeight: 560,
+        maxHeight: 550,
     },
 });
 
 export default function StickyHeadTable() {
     const classes = useStyles();
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -68,6 +69,7 @@ export default function StickyHeadTable() {
     };
 
     const products = useSelector((store) => store.cartReducer.products);
+    // console.log(products)
 
     const clickEdit = (data) => {
         console.log("this edit: ", data)
@@ -75,7 +77,7 @@ export default function StickyHeadTable() {
     };
 
     const clickDel = (data) => {
-        console.log("this del: ", data)
+        dispatch(deleteOneProduct(data))
     };
 
     function rowButtons(data) {

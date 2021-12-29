@@ -1,4 +1,4 @@
-import { getProduct, getCategory } from '../service/Api'
+import { getProduct, getCategory, updateProduct, addProduct,deleteProduct } from '../service/Api'
 
 const initialState = {
     products: [],
@@ -24,12 +24,42 @@ export const getCategoryList = () => async (dispatch) => {
     }
 }
 
+export const addOneProduct = (data) => async (dispatch) => {
+    try {
+        addProduct(data.values)
+        dispatch({ type: 'ADD_PRODUCT', data: data.values })
+        dispatch(getProductList())
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const deleteOneProduct = (data) => async (dispatch) => {
+    try {
+        deleteProduct(data)
+        dispatch({ type: 'DELETE_PRODUCT', data: data })
+        dispatch(getProductList())
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const updateProductDetail = (data) => async (dispatch) => {
+    try {
+        updateProduct(data.values)
+        dispatch({ type: 'UPDATE_PRODUCT', data: data.values })
+        dispatch(getProductList())
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 export default function itemReducer(state = initialState, action) {
     switch (action.type) {
         case "GET_DATA":
             return {
                 ...state,
-                products: action?.data
+                products: action?.data.reverse()
             }
 
         case "GET_CATEGORY":
@@ -38,46 +68,25 @@ export default function itemReducer(state = initialState, action) {
                 categories: action?.data
             }
 
-        case "ADD_TO_CART":
-            const isIndExisted = state.cart?.findIndex(e => e?.id === action.data?.id)
-            if (isIndExisted !== -1) {
-                state.cart[isIndExisted].quantity = state.cart[isIndExisted].quantity + action.data.quantity
-                return {
-                    ...state,
-                    cart: [...state.cart]
-                }
-            } else {
-                return {
-                    cart: [...state.cart, action.data]
-                };
-            }
-
-        case "INCREASE_QUANTITY":
-            const isIndExistedIncreaseQuantity = state.cart?.findIndex(e => e?.id === action.data?.id)
-            state.cart[isIndExistedIncreaseQuantity].quantity = state.cart[isIndExistedIncreaseQuantity].quantity + 1
+        case "ADD_PRODUCT":
             return {
                 ...state,
-                cart: [...state.cart]
+                cart: [ action?.data, ...state.products]
             }
 
-        case "REDUCE_QUANTITY":
-            const isIndExistedReduceQuantity = state.cart?.findIndex(e => e?.id === action.data?.id)
-            state.cart[isIndExistedReduceQuantity].quantity = state.cart[isIndExistedReduceQuantity].quantity - 1
+        case "UPDATE_PRODUCT":
+            const isUpd = state.products?.findIndex(e => e?._id === action.data?._id)
+            state.products[isUpd] = action.data
             return {
                 ...state,
-                cart: [...state.cart]
+                cart: [...state.products]
             }
 
-        case "REMOVE_CART":
+        case "DELETE_PRODUCT":
+            console.log(action.data)
             return {
                 ...state,
-                cart: [...state.cart.filter(item => item?.id !== action.data?.id)]
-            }
-
-        case "REMOVE_ALL":
-            return {
-                ...state,
-                cart: []
+                cart: [...state.products.filter(item => item?._id !== action.data)]
             }
 
         default:
