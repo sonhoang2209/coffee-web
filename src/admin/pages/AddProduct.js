@@ -15,7 +15,7 @@ import Button from '@material-ui/core/Button';
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { addOneProduct } from '../reducers/cartReducer';
+import { addOneProduct } from '../../reducers/cartReducer';
 
 const useStyles = makeStyles((theme) => ({
     root: {

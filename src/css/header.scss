@@ -1,0 +1,16 @@
+.container-main {
+    padding-left:10%;
+    padding-right:10%;
+    &.bg-dark {
+        background-color: #343a40 !important;
+    }
+    &.ftco-navbar-light {
+        background: transparent !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 3;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+}

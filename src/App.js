@@ -11,11 +11,14 @@ import AllReducer from "./reducers";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import thunk from 'redux-thunk'
 
-import LogIn from './pages/LogIn';
-import Dashboard from "./pages/Dashboard";
-import ProductList from "./pages/ProductList";
-import Product from "./pages/Product";
-import AddProduct from "./pages/AddProduct";
+import LogIn from './admin/pages/LogIn';
+import Dashboard from "./admin/pages/Dashboard";
+import ProductList from "./admin/pages/ProductList";
+import Product from "./admin/pages/Product";
+import AddProduct from "./admin/pages/AddProduct";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import Home from "./pages/Home";
 
 const persistConfig = {
     key: 'root',
@@ -33,11 +36,13 @@ function App() {
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
                 <Routes>
-                    <Route path="/" element={<Dashboard />} />
-                    <Route path="/Login" element={<LogIn />} />
-                    <Route path="/Products" element={<ProductList />}></Route>
-                    <Route path="/Products/:ProductId" element={<Product />} />
-                    <Route path="/Products/add" element={<AddProduct />} />
+                    <Route path="/" element={<Home />} />
+
+                    <Route path="/admin/" element={<Dashboard />} />
+                    <Route path="/admin/Login" element={<LogIn />} />
+                    <Route path="/admin/Products" element={<ProductList />}></Route>
+                    <Route path="/admin/Products/:ProductId" element={<Product />} />
+                    <Route path="/admin/Products/add" element={<AddProduct />} />
                 </Routes>
             </PersistGate>
         </Provider>

@@ -8,13 +8,12 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Button from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
 import { useNavigate } from "react-router-dom";
 
-import { useSelector, useDispatch } from "react-redux";
-import { deleteOneProduct } from '../reducers/cartReducer';
+import { useSelector } from "react-redux";
+import SimplePopper from './Popup';
 
 const columns = [
     { id: 'name', label: 'Name', minWidth: 170 },
@@ -48,11 +47,14 @@ const useStyles = makeStyles({
     container: {
         maxHeight: 550,
     },
+    buttons: {
+        display: 'flex',
+    }
 });
 
 export default function StickyHeadTable() {
     const classes = useStyles();
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -72,19 +74,14 @@ export default function StickyHeadTable() {
     // console.log(products)
 
     const clickEdit = (data) => {
-        console.log("this edit: ", data)
-        navigate(`/products/${data}`,{state: { id: data }})
-    };
-
-    const clickDel = (data) => {
-        dispatch(deleteOneProduct(data))
+        navigate(`/admin/Products/${data}`,{state: { id: data }})
     };
 
     function rowButtons(data) {
         return (
-            <div>
+            <div className={classes.buttons}>
                 <Button onClick={() => clickEdit(data._id)}><EditIcon color="primary" /></Button>
-                <Button onClick={() => clickDel(data._id)}><DeleteForeverIcon color="secondary" /></Button>
+                <SimplePopper data={data} />
             </div>
         )
     }

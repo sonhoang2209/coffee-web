@@ -12,11 +12,11 @@ import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
 import { Link } from 'react-router-dom';
-import '../index.css'
+import '../../index.css'
 
 export const mainListItems = (
     <div>
-        <Link to="/">
+        <Link to="/admin">
             <ListItem button>
                 <ListItemIcon>
                     <DashboardIcon />
@@ -24,7 +24,7 @@ export const mainListItems = (
                 <ListItemText primary="Dashboard" />
             </ListItem>
         </Link>
-        <Link to="/Login">
+        <Link to="/admin/Login">
             <ListItem button>
                 <ListItemIcon>
                     <ShoppingCartIcon />
@@ -32,7 +32,7 @@ export const mainListItems = (
                 <ListItemText primary="Orders" />
             </ListItem>
         </Link>
-        <Link to="/Products">
+        <Link to="/admin/Products">
             <ListItem button>
                 <ListItemIcon>
                     <LayersIcon />

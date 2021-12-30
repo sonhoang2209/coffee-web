@@ -17,7 +17,7 @@ import Button from '@material-ui/core/Button';
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { updateProductDetail } from '../reducers/cartReducer';
+import { updateProductDetail } from '../../reducers/cartReducer';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -101,7 +101,6 @@ export default function Product() {
                                         id="thumbnail"
                                         name="thumbnail"
                                         defaultValue={values.thumbnail}
-                                        
                                         required
                                         className={classes.input}
                                         onChange={handleChange('thumbnail')}

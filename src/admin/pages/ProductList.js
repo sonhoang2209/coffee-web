@@ -8,7 +8,7 @@ import StickyHeadTable from '../components/Table';
 
 import { useDispatch } from "react-redux";
 
-import { getProductList, getCategoryList } from '../reducers/cartReducer'
+import { getProductList, getCategoryList } from '../../reducers/cartReducer'
 
 
 const useStyles = makeStyles((theme) => ({
