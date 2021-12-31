@@ -1,0 +1,12 @@
+[
+    {
+        "_id": {
+            "$oid": "61af54f442182b19aa7066af"
+        },
+        "name": "Latte Táo Lê Quế (Đá)",
+        "description": "Sự kết hợp giữa cà phê đậm đà với vị ngọt cay nhẹ của quế hòa quyện cùng vị chua dịu của táo lê tạo nên một thức uống tuyệt hảo, đầy thú vị.",
+        "price": 59000,
+        "thumbnail": "https://minio.thecoffeehouse.com/image/admin/1638267966_latte-tao-le-que-lanh_400x400.jpg",
+        "slug": "latte-tao-le-que-da"
+    }
+]
