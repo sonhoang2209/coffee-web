@@ -16,6 +16,7 @@ import Dashboard from "./admin/pages/Dashboard";
 import ProductList from "./admin/pages/ProductList";
 import Product from "./admin/pages/Product";
 import AddProduct from "./admin/pages/AddProduct";
+import "./css/header.scss";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Home from "./pages/Home";

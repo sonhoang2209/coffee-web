@@ -24,7 +24,7 @@ export default function Header({title}) {
     };
 
     return (
-        <div>
+        <div className='default'>
             <CssBaseline />
             <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
                 <Toolbar className={classes.toolbar}>

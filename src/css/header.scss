@@ -1,8 +1,18 @@
 .container-main {
     padding-left:10%;
     padding-right:10%;
-    &.bg-dark {
-        background-color: #343a40 !important;
+    &.header {
+        background-color: #FFAD3C;
+        position: fixed;
+        font-weight: 600;
+        width: 100%;
+        top: 0
+    }
+    &.top-60 {
+        margin-top: 60px;
+    }
+    .navbar {
+        background-color: transparent !important;
     }
     &.ftco-navbar-light {
         background: transparent !important;

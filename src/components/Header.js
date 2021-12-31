@@ -1,17 +1,15 @@
 import React from "react";
-import "../css/header.scss";
 import { Button, Navbar, Container, Nav, NavDropdown, Form, FormControl } from 'react-bootstrap';
-
 import { useViewport } from "./Funtions";
 
 export default function Header() {
     const check = useViewport()
 
     return (
-        <div className={check ? "container-main" : "main"}>
-            <Navbar expand="lg">
+        <div className={check ? "container-main header" : "main header"}>
+            <Navbar bg="dark" variant="dark" expand="lg">
                 <Container fluid>
-                    <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
+                    <Navbar.Brand href="/">Coffee</Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <Nav
