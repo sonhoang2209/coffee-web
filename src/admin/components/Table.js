@@ -71,7 +71,6 @@ export default function StickyHeadTable() {
     };
 
     const products = useSelector((store) => store.cartReducer.products);
-    // console.log(products)
 
     const clickEdit = (data) => {
         navigate(`/admin/Products/${data}`,{state: { id: data }})
