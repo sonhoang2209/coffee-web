@@ -15,7 +15,7 @@ import Button from '@material-ui/core/Button';
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { addOneProduct } from '../../reducers/cartReducer';
+import { addOneProduct } from '../../reducers/productReducer';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -63,7 +63,7 @@ export default function AddProduct() {
     const classes = useStyles();
     const dispatch = useDispatch();
 
-    const categories = useSelector((store) => store.cartReducer.categories);
+    const categories = useSelector((store) => store.productReducer.categories);
 
     const [values, setValues] = React.useState({
         name:"",
@@ -80,19 +80,24 @@ export default function AddProduct() {
         console.log(values)
     };
     const update = () => {
-        dispatch(addOneProduct({values}));
+        // dispatch(addOneProduct({values}));
         // updateProduct(values)
-        
     };
+    function handleSubmit(event) {
+        event.preventDefault();
+        dispatch(addOneProduct({values}));
+        // alert('A name was submitted: ' + values);
+    }
+
 
     return (
         <div className={classes.root}>
-            <Header title="Product Detail" />
+            <Header title="Add Product" />
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
                     <Grid container spacing={3}>
-                        <form className={classes.padding} noValidate autoComplete="off">
+                        <form  onSubmit={handleSubmit} className={classes.padding}>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} md={4} lg={3}>
                                     <div className={classes.thumbnail}>
@@ -127,6 +132,7 @@ export default function AddProduct() {
                                             id="standard-adornment-amount"
                                             defaultValue={values.price}
                                             onChange={handleChange('price')}
+                                            required
                                             startAdornment={<InputAdornment position="start">đ</InputAdornment>}
                                         />
                                     </FormControl>
@@ -138,6 +144,7 @@ export default function AddProduct() {
                                             value={values.type_id}
                                             onChange={handleChange('type_id')}
                                             className={classes.select}
+                                            required
                                         >
                                             {
                                                 categories.map((e, i) => {
@@ -152,30 +159,31 @@ export default function AddProduct() {
                                         id="description"
                                         name="description"
                                         defaultValue={values.description}
-                                        
+                                        required
                                         className={classes.input}
                                         multiline
                                         rows={3}
                                         onChange={handleChange('description')}
                                     />
+                                    
                                     <TextField
                                         label="Slug"
                                         fullWidth
                                         id="slug"
                                         name="slug"
                                         defaultValue={values.slug}
-                                        
+                                        required
                                         className={classes.input}
                                         onChange={handleChange('slug')}
                                     />
                                 </Grid>
                             </Grid>
 
-
+                            <Button type="submit" variant="contained" color="primary" onClick={update} className={classes.input}>
+                                Add
+                            </Button>
                         </form>
-                        <Button variant="contained" color="primary" onClick={update} className={classes.input}>
-                            Update
-                        </Button>
+                        
                     </Grid>
                     <Footer />
                 </Container>

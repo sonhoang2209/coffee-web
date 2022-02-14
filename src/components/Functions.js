@@ -1,13 +1,5 @@
 import React from 'react'
 
-export default function Funtions() {
-    return (
-        <div>
-            
-        </div>
-    )
-}
-
 export const useViewport = () => {
     const [width, setWidth] = React.useState(window.innerWidth);
   
@@ -24,3 +16,5 @@ export const useViewport = () => {
         return false
     }
 };
+
+

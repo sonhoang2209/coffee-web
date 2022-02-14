@@ -6,18 +6,18 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
-import EditIcon from '@material-ui/icons/Edit';
-import { useNavigate } from "react-router-dom";
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+// import { useNavigate } from "react-router-dom";
+import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
+import RemoveIcon from '@material-ui/icons/Remove';
 
-import { useSelector } from "react-redux";
-import SimplePopper from './Popup';
+import { useSelector, useDispatch } from "react-redux";
 
 const columns = [
-    { id: 'name', label: 'Name', minWidth: 170 },
-    { id: 'thumbnail', label: 'Thumbnail', minWidth: 100, html: 'img' },
+    { id: 'thumbnail', label: 'Product', minWidth: 100, html: 'img' },
+    { id: 'name', label: '', minWidth: 120 },
     {
         id: 'price',
         label: 'Price',
@@ -26,15 +26,22 @@ const columns = [
         format: (value) => value.toLocaleString('en-US'),
     },
     {
-        id: 'description',
-        label: 'description',
+        id: 'quantity',
+        label: 'Quantity',
         minWidth: 170,
         align: 'center',
+        html: 'quantity'
+    },
+    {
+        id: 'total',
+        label: 'Total',
+        minWidth: 170,
+        html: 'total'
     },
     {
         id: 'delete',
         label: '',
-        minWidth: 200,
+        minWidth: 100,
         align: 'center',
         html: 'buttons'
     }
@@ -44,42 +51,78 @@ const useStyles = makeStyles({
     root: {
         width: '100%',
     },
-    container: {
-        maxHeight: 550,
-    },
     buttons: {
         display: 'flex',
+    },
+    allTotal : {
+        width: 200,
+        margin : '0 0 0 auto',
+        padding: 15
     }
 });
 
-export default function StickyHeadTable() {
+
+export default function Carts() {
     const classes = useStyles();
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
-    let navigate = useNavigate();
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
+    const dispatch = useDispatch();
+    const [allTotal,setAlltotal] = useState(0)
+    
+    const products = useSelector((store) => store.cartReducer.cart);
+    const clickDel = (data) => {
+        dispatch({ type: 'REMOVE_CART', data: data })
+        console.log(data)
     };
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    };
-
-    const products = useSelector((store) => store.productReducer.products);
-
-    const clickEdit = (data) => {
-        navigate(`/admin/Products/${data}`,{state: { id: data }})
-    };
+    function setAll() {
+        var total = 0
+        products.map(( value ) => {
+            total = total + value.price * value.quantity
+            return(
+                <>
+                </>
+            )
+        })
+        setAlltotal(total)
+    }
+    
+    React.useEffect(() => {
+        setAll()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [products]);
 
     function rowButtons(data) {
         return (
             <div className={classes.buttons}>
-                <Button onClick={() => clickEdit(data._id)}><EditIcon color="primary" /></Button>
-                <SimplePopper data={data} />
+                <Button onClick={() => clickDel(data)}><DeleteForeverIcon color="secondary" /></Button>
             </div>
         )
+    }
+
+    function rowTotal(data) {
+        const total = data.quantity * data.price
+        return (
+            <div className={classes.total}>
+                {total.toLocaleString('en-US') }
+            </div>
+        )
+    }
+
+    function rowQuantity(data) {
+        return (
+            <div>
+                <Button onClick={() => clickReduce(data)}><RemoveIcon/></Button>
+                <span>{data.quantity}</span>
+                <Button onClick={() => clickIncrease(data)}><AddOutlinedIcon/></Button>
+            </div>
+        )
+    }
+
+    function clickIncrease(data) {
+        dispatch({ type: 'INCREASE_QUANTITY', data: data })
+    }
+
+    function clickReduce(data) {
+        dispatch({ type: 'REDUCE_QUANTITY', data: data })
     }
 
     return (
@@ -99,9 +142,8 @@ export default function StickyHeadTable() {
                             ))}
                         </TableRow>
                     </TableHead>
-
                     <TableBody>
-                        {products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
+                        {products.map((row, i) => {
                             return (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={i}>
                                     {columns.map((column) => {
@@ -113,28 +155,21 @@ export default function StickyHeadTable() {
                                                 {column.format && typeof value === 'number' && column.format(value)}
                                                 {!column.html && !column.format && value}
                                                 {column.html === 'buttons' && rowButtons(row)}
+                                                {column.html === 'total' && rowTotal(row)}
+                                                {column.html === 'quantity' && rowQuantity(row)}
                                             </TableCell>
                                         );
                                     })}
                                 </TableRow>
                             );
                         })}
-                    </TableBody>
+                    </TableBody>  
                 </Table>
             </TableContainer>
             <div>
-                {/* <div>
-                    <input></input>
-                </div> */}
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25, 100]}
-                    component="div"
-                    count={products.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
+                <div className={classes.allTotal}>
+                    <b>All total :</b> {allTotal.toLocaleString('en-US') }đ
+                </div> 
             </div>
         </Paper>
     );

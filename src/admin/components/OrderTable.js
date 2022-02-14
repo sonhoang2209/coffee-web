@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -12,24 +12,32 @@ import Button from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
 import { useNavigate } from "react-router-dom";
 
-import { useSelector } from "react-redux";
-import SimplePopper from './Popup';
+import { useSelector, useDispatch } from "react-redux";
+import { OderPopper } from './Popup';
+import { getOrderList } from '../../reducers/orderReducer';
 
 const columns = [
-    { id: 'name', label: 'Name', minWidth: 170 },
-    { id: 'thumbnail', label: 'Thumbnail', minWidth: 100, html: 'img' },
+    { id: 'fullName', label: 'Name', minWidth: 170 },
+    { id: 'email', label: 'Email', minWidth: 100},
     {
-        id: 'price',
-        label: 'Price',
+        id: 'phone',
+        label: 'Phone',
+        minWidth: 170,
+        align: 'center',
+    },
+    {
+        id: 'total',
+        label: 'Total',
         minWidth: 120,
         align: 'right',
         format: (value) => value.toLocaleString('en-US'),
     },
     {
-        id: 'description',
-        label: 'description',
-        minWidth: 170,
+        id: 'date',
+        label: 'date',
+        minWidth: 200,
         align: 'center',
+        // format: (value) => value.toString(),
     },
     {
         id: 'delete',
@@ -52,8 +60,9 @@ const useStyles = makeStyles({
     }
 });
 
-export default function StickyHeadTable() {
+function OrderTable(props) {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     let navigate = useNavigate();
@@ -67,17 +76,21 @@ export default function StickyHeadTable() {
         setPage(0);
     };
 
-    const products = useSelector((store) => store.productReducer.products);
+    const orders = useSelector((store) => store.orderReducer.order);
 
     const clickEdit = (data) => {
-        navigate(`/admin/Products/${data}`,{state: { id: data }})
+        navigate(`/admin/order/${data}`, { state: { id: data } })
     };
+
+    useEffect(() => {
+        dispatch(getOrderList())
+    },[]) 
 
     function rowButtons(data) {
         return (
             <div className={classes.buttons}>
                 <Button onClick={() => clickEdit(data._id)}><EditIcon color="primary" /></Button>
-                <SimplePopper data={data} />
+                <OderPopper data={data} />
             </div>
         )
     }
@@ -101,15 +114,14 @@ export default function StickyHeadTable() {
                     </TableHead>
 
                     <TableBody>
-                        {products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
+                        {orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
                             return (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={i}>
                                     {columns.map((column) => {
-                                        const id  = column.id
+                                        const id = column.id
                                         const value = row[id];
                                         return (
                                             <TableCell key={column.id} align={column.align}>
-                                                {column.html === 'img' && <img src={value} alt="" width="150" height="150" />}
                                                 {column.format && typeof value === 'number' && column.format(value)}
                                                 {!column.html && !column.format && value}
                                                 {column.html === 'buttons' && rowButtons(row)}
@@ -123,13 +135,10 @@ export default function StickyHeadTable() {
                 </Table>
             </TableContainer>
             <div>
-                {/* <div>
-                    <input></input>
-                </div> */}
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25, 100]}
                     component="div"
-                    count={products.length}
+                    count={orders.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
@@ -139,3 +148,5 @@ export default function StickyHeadTable() {
         </Paper>
     );
 }
+
+export default OrderTable;

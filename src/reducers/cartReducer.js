@@ -1,93 +1,63 @@
-import { getProduct, getCategory, updateProduct, addProduct,deleteProduct } from '../service/Api'
-
 const initialState = {
-    products: [],
-    cart: [],
-    categories: []
+    cart: []
 };
 
-export const getProductList = () => async (dispatch) => {
+export const addOneCart = (data) => async (dispatch) => {
     try {
-        const response = await getProduct()
-        dispatch({ type: 'GET_DATA', data: response?.data })
+        dispatch({ type: 'ADD_TO_CART', data: data.values })
     } catch (error) {
         console.error(error);
     }
 }
-
-export const getCategoryList = () => async (dispatch) => {
-    try {
-        const response = await getCategory()
-        dispatch({ type: 'GET_CATEGORY', data: response?.data })
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-export const addOneProduct = (data) => async (dispatch) => {
-    try {
-        addProduct(data.values)
-        dispatch({ type: 'ADD_PRODUCT', data: data.values })
-        dispatch(getProductList())
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-export const deleteOneProduct = (data) => async (dispatch) => {
-    try {
-        deleteProduct(data)
-        dispatch({ type: 'DELETE_PRODUCT', data: data })
-        dispatch(getProductList())
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-export const updateProductDetail = (data) => async (dispatch) => {
-    try {
-        updateProduct(data.values)
-        dispatch({ type: 'UPDATE_PRODUCT', data: data.values })
-        dispatch(getProductList())
-    } catch (error) {
-        console.error(error);
-    }
-}
-
+  
 export default function itemReducer(state = initialState, action) {
     switch (action.type) {
-        case "GET_DATA":
-            return {
+        case "ADD_TO_CART":
+            const isIndExisted = state.cart?.findIndex(e => e?._id === action.data?._id)
+            
+            if (isIndExisted !== -1) {
+                state.cart[isIndExisted].quantity = state.cart[isIndExisted].quantity + action.data.quantity
+                return {
                 ...state,
-                products: action?.data.reverse()
+                cart: [...state.cart]
+                }
+                
+            } else {
+                return {
+                cart: [...state.cart, action.data]
+                };
             }
 
-        case "GET_CATEGORY":
+        case "INCREASE_QUANTITY":
+            const isIndExistedIncreaseQuantity = state.cart?.findIndex(e => e?._id === action.data?._id)
+            state.cart[isIndExistedIncreaseQuantity].quantity = state.cart[isIndExistedIncreaseQuantity].quantity + 1
             return {
                 ...state,
-                categories: action?.data
+                cart: [...state.cart]
+            }
+        case "REDUCE_QUANTITY":
+            const isIndExistedReduceQuantity = state.cart?.findIndex(e => e?._id === action.data?._id)
+            state.cart[isIndExistedReduceQuantity].quantity = state.cart[isIndExistedReduceQuantity].quantity - 1
+            return {
+                ...state,
+                cart: [...state.cart]
             }
 
-        case "ADD_PRODUCT":
+        case "REMOVE_CART":
+            // const isIndRemove = state.cart?.findIndex(e => e?.id === action.data?.id)
+            // console.log(isIndRemove)
             return {
                 ...state,
-                cart: [ action?.data, ...state.products]
+                cart: [...state.cart.filter(item => item?._id !== action.data?._id)]
             }
+           
 
-        case "UPDATE_PRODUCT":
-            const isUpd = state.products?.findIndex(e => e?._id === action.data?._id)
-            state.products[isUpd] = action.data
+        case "REMOVE_ALL":
             return {
                 ...state,
-                cart: [...state.products]
+                cart: []
             }
-
-        case "DELETE_PRODUCT":
-            console.log(action.data)
-            return {
-                ...state,
-                cart: [...state.products.filter(item => item?._id !== action.data)]
-            }
+            
 
         default:
             return state;

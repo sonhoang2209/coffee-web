@@ -16,6 +16,11 @@ import Dashboard from "./admin/pages/Dashboard";
 import ProductList from "./admin/pages/ProductList";
 import Product from "./admin/pages/Product";
 import AddProduct from "./admin/pages/AddProduct";
+import Detail from './pages/Detail'
+import Orders from "./pages/Orders";
+import AdminOrder from "./admin/pages/adminOrder";
+import SignIn from "./pages/LogIn"
+
 import "./css/header.scss";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -38,12 +43,16 @@ function App() {
             <PersistGate loading={null} persistor={persistor}>
                 <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<SignIn />} />
+                    <Route path="/Product/:ProductId" element={<Detail />} />
+                    <Route path="/Orders" element={<Orders />} />
 
                     <Route path="/admin/" element={<Dashboard />} />
                     <Route path="/admin/Login" element={<LogIn />} />
                     <Route path="/admin/Products" element={<ProductList />}></Route>
                     <Route path="/admin/Products/:ProductId" element={<Product />} />
                     <Route path="/admin/Products/add" element={<AddProduct />} />
+                    <Route path="/admin/orders" element={<AdminOrder />} />
                 </Routes>
             </PersistGate>
         </Provider>

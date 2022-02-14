@@ -17,7 +17,7 @@ import Button from '@material-ui/core/Button';
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { updateProductDetail } from '../../reducers/cartReducer';
+import { updateProductDetail } from '../../reducers/productReducer';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -68,8 +68,8 @@ export default function Product() {
     const dispatch = useDispatch();
     // const [product, setProduct] = React.useState([]);
 
-    const product = useSelector((store) => store.cartReducer.products.filter(word => word._id === id));
-    const categories = useSelector((store) => store.cartReducer.categories);
+    const product = useSelector((store) => store.productReducer.products.filter(word => word._id === id));
+    const categories = useSelector((store) => store.productReducer.categories);
 
     const [values, setValues] = React.useState(product[0]);
 

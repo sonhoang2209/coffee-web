@@ -1,6 +1,8 @@
 import React from "react";
-import { Button, Navbar, Container, Nav, NavDropdown, Form, FormControl } from 'react-bootstrap';
-import { useViewport } from "./Funtions";
+import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
+import { useViewport } from "./Functions";
+import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
+import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 
 export default function Header() {
     const check = useViewport()
@@ -9,7 +11,7 @@ export default function Header() {
         <div className={check ? "container-main header" : "main header"}>
             <Navbar bg="dark" variant="dark" expand="lg">
                 <Container fluid>
-                    <Navbar.Brand href="/">Coffee</Navbar.Brand>
+                    <Navbar.Brand href="/">S Coffee</Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <Nav
@@ -33,15 +35,14 @@ export default function Header() {
                                 Link
                             </Nav.Link>
                         </Nav>
-                        <Form className="d-flex">
-                            <FormControl
-                                type="search"
-                                placeholder="Search"
-                                className="me-2"
-                                aria-label="Search"
-                            />
-                            <Button variant="outline-success">Search</Button>
-                        </Form>
+                        <Nav>
+                            <Nav.Link href="/login" id='button-user'>
+                                <div className="border-icons"><PermIdentityOutlinedIcon /></div>
+                            </Nav.Link>
+                            <Nav.Link href="/Orders">
+                                <div className="border-icons"><ShoppingCartOutlinedIcon /></div>
+                            </Nav.Link>
+                        </Nav>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

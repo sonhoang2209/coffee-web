@@ -4,12 +4,11 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import StickyHeadTable from '../components/Table';
+import OrderTable from '../components/OrderTable';
 
 import { useDispatch } from "react-redux";
 
-import { getProductList, getCategoryList } from '../../reducers/productReducer'
-
+import { getOrderList } from '../../reducers/orderReducer';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,28 +36,29 @@ const useStyles = makeStyles((theme) => ({
     
 }));
 
-export default function ProductList() {
+function AdminOrder(props) {
     const classes = useStyles();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getProductList())
-        dispatch(getCategoryList())
+        dispatch(getOrderList())
          // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
         <div className={classes.root}>
-            <Header title="Products" />
+            <Header title="Orders" />
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
                     <Grid container spacing={3}>
-                        <StickyHeadTable />
+                        <OrderTable />
                     </Grid>
                     <Footer />
                 </Container>
             </main>
         </div>
-    )
+    );
 }
+
+export default AdminOrder;
