@@ -57,6 +57,20 @@ const DATA =[
         "introduction":"Van la huong vi ca phe sua dam da quen thuoc cua chung toi nhung khoac len minh bo quna ao moi tien loi hon, tiet kiem va phu hop hon voi nhieu nguoi",
         "price":78000,
         "image":require('../../images/products/coffee-250ml.jpg')
+    },
+    {
+        "id":7,
+        "title":"ca phe den chai fresh 250ML",
+        "introduction":"Van la huong vi ca phe sua dam da quen thuoc cua chung toi nhung khoac len minh bo quna ao moi tien loi hon, tiet kiem va phu hop hon voi nhieu nguoi",
+        "price":78000,
+        "image":require('../../images/products/coffee-250ml.jpg')
+    },
+    {
+        "id":8,
+        "title":"ca phe den chai fresh 250ML",
+        "introduction":"Van la huong vi ca phe sua dam da quen thuoc cua chung toi nhung khoac len minh bo quna ao moi tien loi hon, tiet kiem va phu hop hon voi nhieu nguoi",
+        "price":78000,
+        "image":require('../../images/products/coffee-250ml.jpg')
     }
 ]
 
